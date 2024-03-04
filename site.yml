@@ -3,3 +3,13 @@
   hosts: all
   roles:
     - common
+
+- name: apply common configuration to all cumulus
+  hosts: cumulus
+  roles:
+    - cumulus
+
+- name: apply common configuration to all ubuntu
+  hosts: ubuntu
+  roles:
+    - ubuntu

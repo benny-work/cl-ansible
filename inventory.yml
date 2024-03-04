@@ -1,3 +1,8 @@
-core:
-  hosts:
-    HW-CORE-SW[0:1]:
+ubuntu:
+  core:
+    hosts:
+      ubuntu-hwcoresw[0:1]:
+cumulus:
+  core:
+    hosts:
+      HW-CORE-SW[0:1]:

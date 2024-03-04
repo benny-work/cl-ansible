@@ -2,7 +2,7 @@ all:
   children:
     ubuntu:
       hosts:
-        ubuntu-hwcoresw[0:1]:
+        ubuntu-1[0:1]:
     cumulus:
       hosts:
         HW-CORE-SW[0:1]:

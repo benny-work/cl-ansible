@@ -1,3 +1,8 @@
 ---
-- name: Dummy
-  ansible.builtin.shell: "date > dummy.txt"
+- name: Configuring Netplan
+  ansible.builtin.template:
+    src: etc/netplan/eth1.yaml.j2
+    dest: /etc/netplan/eth1.yaml
+    mode: '0644'
+  become: true
+  notify: netplan apply

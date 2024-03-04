@@ -1,0 +1,6 @@
+---
+# Handler to handle common notifications. Handlers are called by other plays.
+
+- name: netplan apply
+  ansible.builtin.shell: "netplan apply"
+  become: true

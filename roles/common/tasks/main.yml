@@ -1,0 +1,3 @@
+---
+- name: Set hostname
+  ansible.builtin.shell: "nv set system hostname {{ inventory_hostname|lower }}"

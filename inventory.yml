@@ -1,0 +1,4 @@
+core:
+  hosts:
+    HW-CORE-SW0:
+    HW-CORE-SW1:

@@ -1,5 +1,9 @@
 ---
 - name: bond1
+  ansible.builtin.shell: "nv set interface swp49-50"
+  notify: config apply
+
+- name: bond1
   ansible.builtin.shell: "nv set interface bond1 bond member swp49-50"
   notify: config apply
 

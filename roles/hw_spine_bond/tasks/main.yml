@@ -1,10 +1,10 @@
 ---
 - name: bond1
-  ansible.builtin.shell: "nv set interface swp49-50"
+  ansible.builtin.shell: "nv set interface swp8-9"
   notify: config apply
 
 - name: bond1
-  ansible.builtin.shell: "nv set interface bond1 bond member swp49-50"
+  ansible.builtin.shell: "nv set interface bond1 bond member swp8-9"
   notify: config apply
 
 - name: bond1
@@ -20,7 +20,7 @@
   notify: config apply
 
 - name: bond1
-  ansible.builtin.shell: "nv set interface peerlink bond member swp49-50"
+  ansible.builtin.shell: "nv set interface peerlink bond member swp8-9"
   notify: config apply
  
 - name: bond1

@@ -10,6 +10,6 @@
     - ubuntu
 
 - name: setup bond between hw spine switches
-  hosts: hw-core-sw[1:2]
+  hosts: hw-core-sw1,hw-core-sw2
   roles:
     - hw_spine_bond

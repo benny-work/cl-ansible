@@ -8,3 +8,9 @@
   hosts: ubuntu
   roles:
     - ubuntu
+
+- name: setup bond between hw spine switches
+  hosts:
+    - hw-core-sw[1:2]
+  roles:
+    - hw_spine_bond

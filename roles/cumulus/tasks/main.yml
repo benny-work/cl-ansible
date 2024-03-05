@@ -2,3 +2,7 @@
 - name: Set hostname
   ansible.builtin.shell: "nv set system hostname {{ inventory_hostname|lower }}"
   notify: config apply
+
+- name: Activate the interface with the Ubuntu server
+  ansible.builtin.shell: "nv set interface swp7 description ubuntu"
+  notify: config apply

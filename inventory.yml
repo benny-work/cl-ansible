@@ -2,7 +2,9 @@ all:
   children:
     ubuntu:
       hosts:
-        ubuntu-1[0:1]:
+        ubuntu-1[1:2]:
+        ubuntu-2[1:2]:
     cumulus:
       hosts:
-        HW-CORE-SW[0:1]:
+        hw-core-sw[1:2]:
+        rack[1:2]-hwc-leaf:

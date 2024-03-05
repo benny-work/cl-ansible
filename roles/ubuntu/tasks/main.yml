@@ -6,9 +6,9 @@
     mode: '0644'
   become: true
   notify: netplan apply
- 
+
 - name: Install traceroute
- apt:
-   name: traceroute
-   state: present
- become: yes
+  ansible.builtin.apt:
+    name: traceroute
+    state: present
+  become: yes

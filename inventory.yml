@@ -5,6 +5,10 @@ all:
         ubuntu-1[1:2]:
         ubuntu-2[1:2]:
     cumulus:
-      hosts:
-        hw-core-sw[1:2]:
-        rack[1:2]-hwc-leaf:
+      children:
+        hw-spine:
+          hosts:
+            hw-core-sw[1:2]:
+        hw-leaf:
+          hosts:
+            rack[1:2]-hwc-leaf:

@@ -7,8 +7,8 @@
   become: true
   notify: netplan apply
  
- - name: Install traceroute
-  apt:
-    name: traceroute
-    state: present
-  become: yes
+- name: Install traceroute
+ apt:
+   name: traceroute
+   state: present
+ become: yes

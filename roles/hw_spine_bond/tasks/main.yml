@@ -1,33 +1,20 @@
 ---
 - name: activate interface for mlag
   ansible.builtin.shell: "nv set interface swp49-50 description spine-mlag"
+  notify: config apply
 
-- name: apply config
-  ansible.builtin.shell: "nv config apply -y"
-
-# - name: bond1
-  # ansible.builtin.shell: "nv set interface bond1 bond member swp49-50"
-
-# - name: bond1
-  # ansible.builtin.shell: "nv set interface bond1 description bond1-hw-spine"
-
-# - name: bond1
-  # ansible.builtin.shell: "nv set interface bond1 bond mlag id 21"
-
-# - name: bond1
-  # ansible.builtin.shell: "nv set interface bond1 bridge domain br_default"
-
-# - name: bond1
-  # ansible.builtin.shell: "nv set interface peerlink bond member swp49-50"
+- name: peerlin for inter-chassis bond 
+  ansible.builtin.shell: "nv set interface peerlink bond member swp49-50"
+  notify: config apply
  
-# - name: bond1
-  # ansible.builtin.shell: "nv set mlag mac-address 44:38:39:BE:EF:AA"
+- name: mlag mac-address inter-chassis bond 
+  ansible.builtin.shell: "nv set mlag mac-address 44:38:39:BE:EF:AA"
+  notify: config apply
 
-# - name: bond1
-  # ansible.builtin.shell: "nv set mlag peer-ip linklocal"
+- name: mlag backup inter-chassis bond
+  ansible.builtin.shell: "nv set mlag backup {{ bond1_mlag_backup }}"
+  notify: config apply
 
-# - name: bond1
-  # ansible.builtin.shell: "nv set mlag backup {{ bond1_mlag_backup }}"
-
-# - name: apply config
-  # ansible.builtin.shell: "nv config apply -y"
+- name: mlag peer-ip inter-chassis bond 
+  ansible.builtin.shell: "nv set mlag peer-ip linklocal"
+  notify: config apply  

@@ -4,10 +4,5 @@
   notify: config apply
 
 - name: Activate the interface with the Ubuntu server
-  ansible.builtin.shell: "nv set interface swp7 description ubuntu"
-  notify: config apply
-
-- name: Activate the interface with the Ubuntu server
-  hosts: hw-core-sw2
-  ansible.builtin.shell: "nv set interface swp8 description ubuntu"
+  ansible.builtin.shell: "nv set interface swp7-9 description ubuntu"
   notify: config apply

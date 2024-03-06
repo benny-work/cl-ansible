@@ -8,6 +8,6 @@
   notify: config apply
 
 - name: Activate the interface with the Ubuntu server
-  host: hw-core-sw2
+  hosts: hw-core-sw2
   ansible.builtin.shell: "nv set interface swp8 description ubuntu"
   notify: config apply

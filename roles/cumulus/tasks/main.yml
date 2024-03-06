@@ -4,9 +4,9 @@
   notify: config apply
 
 - name: Activate the interface for the Ubuntu server
-  ansible.builtin.shell: "nv set interface swp7-9 description ubuntu"
+  ansible.builtin.shell: "nv set interface swp7-8 description ubuntu"
   notify: config apply
 
 - name: Bridge the interface for the Ubuntu server
-  ansible.builtin.shell: "nv set interface swp7-9 bridge domain br_default"
+  ansible.builtin.shell: "nv set interface swp7-8 bridge domain br_default"
   notify: config apply

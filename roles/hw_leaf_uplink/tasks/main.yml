@@ -14,7 +14,7 @@
 
 - name: bond1 uplink
   ansible.builtin.shell: "nv set interface bond1 bond mlag id 1"
-  notify: config appl2
+  notify: config apply
 
 - name: bond1 uplink
   ansible.builtin.shell: "nv set interface bond1 bridge domain br_default"

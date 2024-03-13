@@ -14,3 +14,8 @@
   roles:
     - hw_spine_bond
     - hw_spine_downlink
+
+- name: setup uplink to spine
+  hosts: hw-leaf
+  roles:
+    - hw_leaf_uplink

@@ -1,35 +1,35 @@
 ---
 
 - name: bond1 uplink
-  ansible.builtin.shell: "nv set interface swp1 description downlink"
+  ansible.builtin.shell: "nv set interface swp49 description uplink"
   notify: config apply
 
 - name: bond1 uplink
-  ansible.builtin.shell: "nv set interface bond1 bond member swp1"
+  ansible.builtin.shell: "nv set interface bond1 bond member swp49"
   notify: config apply
 
 - name: bond1 uplink
-  ansible.builtin.shell: "nv set interface bond1 description downlink-on-swp1"
+  ansible.builtin.shell: "nv set interface bond1 description uplink-on-swp49"
   notify: config apply
 
 - name: bond1 uplink
   ansible.builtin.shell: "nv set interface bond1 bond mlag id 1"
-  notify: config apply
+  notify: config appl2
 
 - name: bond1 uplink
   ansible.builtin.shell: "nv set interface bond1 bridge domain br_default"
   notify: config apply
 
 - name: bond2 uplink
-  ansible.builtin.shell: "nv set interface swp2 description downlink"
+  ansible.builtin.shell: "nv set interface swp50 description uplink"
   notify: config apply
 
 - name: bond2 uplink
-  ansible.builtin.shell: "nv set interface bond2 bond member swp2"
+  ansible.builtin.shell: "nv set interface bond2 bond member swp50"
   notify: config apply
 
 - name: bond2 uplink
-  ansible.builtin.shell: "nv set interface bond2 description downlink-on-swp2"
+  ansible.builtin.shell: "nv set interface bond2 description uplink-on-swp50"
   notify: config apply
 
 - name: bond2 uplink

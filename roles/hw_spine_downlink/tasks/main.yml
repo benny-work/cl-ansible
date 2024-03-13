@@ -8,7 +8,7 @@
   notify: config apply
 
 - name: down2rack1
-  ansible.builtin.shell: "nv set interface down2rack1 decription bond-on-swp1"
+  ansible.builtin.shell: "nv set interface down2rack1 description bond-on-swp1"
   notify: config apply
 
 - name: down2rack1

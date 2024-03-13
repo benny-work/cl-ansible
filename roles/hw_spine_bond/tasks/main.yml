@@ -11,6 +11,10 @@
   ansible.builtin.shell: "nv set mlag mac-address 44:38:39:FF:02:00"
   notify: config apply
 
+- name: mlag backup IP
+  ansible.builtin.shell: "nv set mlag backup {{ peerlink_backup_ip }}"
+  notify: config apply
+
 - name: mlag peer-ip inter-chassis bond 
   ansible.builtin.shell: "nv set mlag peer-ip linklocal"
   notify: config apply  

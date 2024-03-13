@@ -1,7 +1,4 @@
 ---
-- name: down2rack1
-  ansible.builtin.shell: "nv set interface swp1 description downlink"
-  notify: config apply
 
 - name: down2rack1
   ansible.builtin.shell: "nv set interface down2rack1 bond member swp1"

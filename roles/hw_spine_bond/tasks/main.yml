@@ -1,6 +1,6 @@
 ---
 - name: activate interface for mlag
-  ansible.builtin.shell: "nv set interface swp49-50 description spine isl"
+  ansible.builtin.shell: "nv set interface swp49-50 description spine-isl"
   notify: config apply
 
 - name: peerlink for inter-chassis bond aka inter-switch link

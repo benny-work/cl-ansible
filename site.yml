@@ -13,3 +13,4 @@
   hosts: hw-spine
   roles:
     - hw_spine_bond
+    - hw_spine_downlink

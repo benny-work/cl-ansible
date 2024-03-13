@@ -1,7 +1,7 @@
 ---
 
 - name: bond1
-  ansible.builtin.shell: "nv set interface swp1"
+  ansible.builtin.shell: "nv set interface swp1 description downlink"
   notify: config apply
 
 - name: bond1
@@ -9,7 +9,7 @@
   notify: config apply
 
 - name: bond1
-  ansible.builtin.shell: "nv set interface bond1 description bond-on-swp1"
+  ansible.builtin.shell: "nv set interface bond1 description downlink-on-swp1"
   notify: config apply
 
 - name: bond1
@@ -19,4 +19,25 @@
 - name: bond1
   ansible.builtin.shell: "nv set interface bond1 bridge domain br_default"
   notify: config apply
+
+- name: bond2
+  ansible.builtin.shell: "nv set interface swp2 description downlink"
+  notify: config apply
+
+- name: bond2
+  ansible.builtin.shell: "nv set interface bond2 bond member swp2"
+  notify: config apply
+
+- name: bond2
+  ansible.builtin.shell: "nv set interface bond2 description downlink-on-swp2"
+  notify: config apply
+
+- name: bond2
+  ansible.builtin.shell: "nv set interface bond2 bond mlag id 2"
+  notify: config apply
+
+- name: bond2
+  ansible.builtin.shell: "nv set interface bond2 bridge domain br_default"
+  notify: config apply
+
 

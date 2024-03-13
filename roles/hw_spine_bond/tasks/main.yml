@@ -1,18 +1,14 @@
 ---
 - name: activate interface for mlag
-  ansible.builtin.shell: "nv set interface swp49-50 description spine-mlag"
+  ansible.builtin.shell: "nv set interface swp49-50 description spine isl"
   notify: config apply
 
-- name: peerlin for inter-chassis bond 
+- name: peerlink for inter-chassis bond aka inter-switch link
   ansible.builtin.shell: "nv set interface peerlink bond member swp49-50"
   notify: config apply
  
 - name: mlag mac-address inter-chassis bond 
-  ansible.builtin.shell: "nv set mlag mac-address 44:38:39:BE:EF:AA"
-  notify: config apply
-
-- name: mlag backup inter-chassis bond
-  ansible.builtin.shell: "nv set mlag backup {{ bond1_mlag_backup }}"
+  ansible.builtin.shell: "nv set mlag mac-address 44:38:39:FF:02:0"
   notify: config apply
 
 - name: mlag peer-ip inter-chassis bond 

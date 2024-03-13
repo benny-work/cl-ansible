@@ -1,0 +1,21 @@
+---
+- name: down2rack1
+  ansible.builtin.shell: "nv set interface swp1 description downlink"
+  notify: config apply
+
+- name: down2rack1
+  ansible.builtin.shell: "nv set interface down2rack1 bond members swp1"
+  notify: config apply
+
+- name: down2rack1
+  ansible.builtin.shell: "nv set interface down2rack1 decription bond-on-swp1"
+  notify: config apply
+
+- name: down2rack1
+  ansible.builtin.shell: "nv set interface down2rack1 bond mlag id 1"
+  notify: config apply
+
+- name: down2rack1
+  ansible.builtin.shell: "nv set interface down2rack1 bridge domain br_default"
+  notify: config apply
+

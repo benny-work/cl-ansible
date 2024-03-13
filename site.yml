@@ -9,7 +9,8 @@
   roles:
     - ubuntu
 
-- name: setup bond between hw spine switches
+- name: setup bond between hw spine switches and downlink to leaf
   hosts: hw-spine
   roles:
     - hw_spine_bond
+    - hw_spine_downlink

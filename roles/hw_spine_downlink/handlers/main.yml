@@ -1,0 +1,5 @@
+---
+# Handler to handle common notifications. Handlers are called by other plays.
+
+- name: config apply
+  ansible.builtin.shell: "nv config apply -y"

@@ -14,8 +14,10 @@
   roles:
     - hw_spine_bond
     - hw_spine_downlink
+    tags: [ cumulus, spine ]
 
-- name: setup uplink to spine
+- name: setup uplink to leaf
   hosts: hw-leaf
   roles:
     - hw_leaf_uplink
+    tags: [ cumulus, leaf ]

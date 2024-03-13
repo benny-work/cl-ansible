@@ -4,7 +4,7 @@
   notify: config apply
 
 - name: down2rack1
-  ansible.builtin.shell: "nv set interface down2rack1 bond members swp1"
+  ansible.builtin.shell: "nv set interface down2rack1 bond member swp1"
   notify: config apply
 
 - name: down2rack1

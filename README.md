@@ -26,6 +26,34 @@ ONIE:/ # ip link show eth0  # show mac (for dhcpd)
 ONIE:/ # onie-nos-install http://192.168.200.1/onie-installer
 ```
 
+### dhcp
+
+Snippet from `/etc/dhcp/dhcpd.conf`
+
+```bash
+...
+option www-server code 72 = ip-address;
+option cumulus-provision-url code 239 = text;
+
+...
+
+# OOB Management subnet
+shared-network LOCAL-NET{
+subnet 192.168.200.0 netmask 255.255.255.0 {
+  range 192.168.200.10 192.168.200.50;
+  option domain-name-servers 192.168.200.1;
+  option domain-name "simulation";
+  default-lease-time 172800;  #2 days
+  max-lease-time 345600;      #4 days
+  option www-server 192.168.200.1;
+  option default-url = "http://192.168.200.1/onie-installer";
+  option cumulus-provision-url "http://192.168.200.1/cumulus-ztp";
+  option ntp-servers 192.168.200.1;
+}
+}
+...
+```
+
 ### ztp script
 
 ```bash

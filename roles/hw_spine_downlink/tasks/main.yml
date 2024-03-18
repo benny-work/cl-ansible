@@ -1,33 +1,33 @@
 ---
-- name: "description for downlink interfaces swp{{ item }}"
+- name: description for downlink interfaces
   ansible.builtin.shell: "nv set interface swp{{ item }} description downlink"
   notify: config apply
   loop:
     - 1
     - 2
 
-- name: "create downlink bond{{ item }}"
+- name: create downlink bond
   ansible.builtin.shell: "nv set interface bond{{ item }} bond member swp{{ item }}"
   notify: config apply
   loop:
     - 1
     - 2
 
-- name: "description for downlink bond{{ item }}"
+- name: description for downlink bond
   ansible.builtin.shell: "nv set interface bond{{ item }} description downlink-on-swp{{ item }}1"
   notify: config apply
   loop:
     - 1
     - 2
 
-- name: "set mlag id on downlink bond{{ item }}"
+- name: set mlag id on downlink bond
   ansible.builtin.shell: "nv set interface bond{{ item }} bond mlag id {{ item }}"
   notify: config apply
   loop:
     - 1
     - 2
 
-- name: "add downlink bond{{ item }} to bridge"
+- name: add downlink bond to bridge
   ansible.builtin.shell: "nv set interface bond{{ item }} bridge domain br_default"
   notify: config apply
   loop:

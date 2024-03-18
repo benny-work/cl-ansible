@@ -16,11 +16,12 @@ ubuntu@oob-mgmt-server:~/cl-ansible$ ansible-playbook site.yml
 ## onie
 
 ```bash
-onie-nos-install http://192.168.200.1/onie-installer
+ONIE:/ # ip link show eth0  # show mac (for dhcpd)
+ONIE:/ # onie-nos-install http://192.168.200.1/onie-installer
 ```
 
-### ztp
+### ztp script
 
 ```bash
-cumulus@onie:mgmt:~$ sudo ztp -v -r http://192.168.200.1/cumulus-ztp
+cumulus@onie:mgmt:~$ sudo ztp -v -r http://192.168.200.1/cumulus-ztp  # test ztp
 ```

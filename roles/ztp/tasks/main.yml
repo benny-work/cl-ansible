@@ -4,6 +4,7 @@
     path: /etc/dhcp/dhcpd.hosts
     insertbefore: '  option domain-name-servers 192.168.200.1;'
     line: '  option cumulus-provision-url "http://192.168.200.1/cumulus-ztp";'
+    backup: true
   become: true
 
 - name: ztp script

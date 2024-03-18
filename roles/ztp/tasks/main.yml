@@ -1,11 +1,11 @@
 ---
-- name: ztp over dhcp
-  ansible.builtin.lineinfile:
-    path: /etc/dhcp/dhcpd.conf
-    insertafter: '  option default-url = "http://192.168.200.1/onie-installer";'
-    line: '  option cumulus-provision-url "http://192.168.200.1/cumulus-ztp";'
-    backup: true
-  become: true
+#- name: ztp over dhcp
+#  ansible.builtin.lineinfile:
+#    path: /etc/dhcp/dhcpd.conf
+#    insertafter: '  option default-url = "http://192.168.200.1/onie-installer";'
+#    line: '  option cumulus-provision-url "http://192.168.200.1/cumulus-ztp";'
+#    backup: true
+#  become: true
 
 - name: ztp script
   ansible.builtin.copy:

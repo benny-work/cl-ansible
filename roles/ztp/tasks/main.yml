@@ -1,7 +1,8 @@
 ---
-- name: ztp
-  ansible.builtin.lineinfile:
-    path: /etc/dhcp/dhcpd.hosts
-    insertbefore: '  option domain-name-servers 192.168.200.1;'
-    line: '# ztp2'
-  become: yes
+- name: ztp script
+  ansible.builtin.copy:
+    src: files/cumulus-ztp
+    dest: /var/www/html/cumulus-ztp
+    owner: root
+    group: root
+    mode: '0644'

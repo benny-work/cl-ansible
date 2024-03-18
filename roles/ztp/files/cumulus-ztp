@@ -1,0 +1,14 @@
+#!/bin/bash
+passwd -x 99999 cumulus
+echo 'cumulus:nda4321' | chpasswd
+nv set system aaa user smc role nvue-admin
+nv set system aaa user smc full-name "Smart Management Center"
+nv config apply -y
+mkdir /home/smc/.ssh
+chown smc /home/smc/.ssh
+chgrp smc /home/smc/.ssh
+chmod 700 /home/smc/.ssh
+cat <<! > /home/smc/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDQLwbgseT9yOECopgAWZmodUBV7Egd4WDiUUBHvhTRhpMzKJhpA6fGT8pTkSkk9W0KLcFv/mQ3hF1cO4d4q1IYYnAoYJBnBIlw0G68feieLEBlvXIbsdRUWMFyQl8oT5oF4efEvkEB1Wp27o7TLQf9ViaQ2kv9bkpqvArvKlf3Xs368Y8OSx7rspDoTvCmwwTt+CTNVuLFytJL+XBIP0yUPRQ5VYZAIYWYmHTX6mPF2DKy+nA92+vQqcGpA2DxM0VKDp3gORqOvRKOHNVWqFfddbhMnJrK9iZYYB7jtS3iEZb7v8kNH+QIKgV2oHC19zX3FcQa0WmSecWHczXSf4/XoZDr7Ki3l0p8MEBj2qYEMZlbxGPBozn5XjwuTcZFNMnqDRnYBZxxafPkPhIONCiqqUrwkSFgty01PCHfRsgYgXsSdcDIJH4O7G7ow1Zg7wNJg9npuydPpjXg7jxL8DdUj1oFCIAsDVE8CH5w0s6Pid6JASp1CwLpt3dxv4rKpC8= ubuntu@oob-mgmt-server
+!
+exit

@@ -1,20 +1,20 @@
 ---
-- name: uplink
+- name: description for uplink intefaces
   ansible.builtin.shell: "nv set interface swp49-50 description uplink"
   notify: config apply
 
-- name: uplink
+- name: create uplink bond
   ansible.builtin.shell: "nv set interface {{ uplink_name }} bond member swp49-50"
   notify: config apply
 
-- name: uplink
+- name: description for uplink bond
   ansible.builtin.shell: "nv set interface {{ uplink_name }} description uplink-on-swp49-50"
   notify: config apply
 
-- name: uplink
+- name: set mlag id on uplink bond
   ansible.builtin.shell: "nv set interface {{ uplink_name }} bond mlag id {{ uplink_id }}"
   notify: config apply
 
-- name: ulink
+- name: add uplink bond to bridge
   ansible.builtin.shell: "nv set interface {{ uplink_name }} bridge domain br_default"
   notify: config apply

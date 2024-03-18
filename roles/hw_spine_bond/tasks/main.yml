@@ -1,4 +1,8 @@
 ---
+- name: set spine as root bridge for stp
+  ansible.builtin.shell: "nv set bridge domain br_default stp priority 8192"
+  notify: config apply
+
 - name: activate interface for mlag
   ansible.builtin.shell: "nv set interface swp49-50 description spine-isl"
   notify: config apply
@@ -17,4 +21,4 @@
 
 - name: mlag peer-ip inter-chassis bond 
   ansible.builtin.shell: "nv set mlag peer-ip linklocal"
-  notify: config apply  
+  notify: config apply

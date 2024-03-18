@@ -1,0 +1,7 @@
+---
+# Handler to handle common notifications. Handlers are called by other plays.
+
+- name: dhcpd apply
+  ansible.builtin.service:
+    name: isc-dhcp-server
+    state: restarted

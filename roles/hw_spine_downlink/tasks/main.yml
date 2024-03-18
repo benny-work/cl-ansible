@@ -1,42 +1,35 @@
 ---
-
-- name: bond1 uplink
-  ansible.builtin.shell: "nv set interface swp1 description downlink"
+- name: "description for downlink interfaces swp{{ item }}"
+  ansible.builtin.shell: "nv set interface swp{{ item }} description downlink"
   notify: config apply
+  loop:
+    - 1
+    - 2
 
-- name: bond1 uplink
-  ansible.builtin.shell: "nv set interface bond1 bond member swp1"
+- name: "create downlink bond{{ item }}"
+  ansible.builtin.shell: "nv set interface bond{{ item }} bond member swp{{ item }}"
   notify: config apply
+  loop:
+    - 1
+    - 2
 
-- name: bond1 uplink
-  ansible.builtin.shell: "nv set interface bond1 description downlink-on-swp1"
+- name: "description for downlink bond{{ item }}"
+  ansible.builtin.shell: "nv set interface bond{{ item }} description downlink-on-swp{{ item }}1"
   notify: config apply
+  loop:
+    - 1
+    - 2
 
-- name: bond1 uplink
-  ansible.builtin.shell: "nv set interface bond1 bond mlag id 1"
+- name: "set mlag id on downlink bond{{ item }}"
+  ansible.builtin.shell: "nv set interface bond{{ item }} bond mlag id {{ item }}"
   notify: config apply
+  loop:
+    - 1
+    - 2
 
-- name: bond1 uplink
-  ansible.builtin.shell: "nv set interface bond1 bridge domain br_default"
+- name: "add downlink bond{{ item }} to bridge"
+  ansible.builtin.shell: "nv set interface bond{{ item }} bridge domain br_default"
   notify: config apply
-
-- name: bond2 uplink
-  ansible.builtin.shell: "nv set interface swp2 description downlink"
-  notify: config apply
-
-- name: bond2 uplink
-  ansible.builtin.shell: "nv set interface bond2 bond member swp2"
-  notify: config apply
-
-- name: bond2 uplink
-  ansible.builtin.shell: "nv set interface bond2 description downlink-on-swp2"
-  notify: config apply
-
-- name: bond2 uplink
-  ansible.builtin.shell: "nv set interface bond2 bond mlag id 2"
-  notify: config apply
-
-- name: bond2 uplink
-  ansible.builtin.shell: "nv set interface bond2 bridge domain br_default"
-  notify: config apply
-
+  loop:
+    - 1
+    - 2

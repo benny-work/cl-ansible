@@ -1,5 +1,5 @@
 ---
-- name: description for uplink intefaces
+- name: description for uplink interfaces
   ansible.builtin.shell: "nv set interface swp49-50 description uplink"
   notify: config apply
 

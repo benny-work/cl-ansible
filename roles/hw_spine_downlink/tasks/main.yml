@@ -14,7 +14,7 @@
     - 2
 
 - name: description for downlink bond
-  ansible.builtin.shell: "nv set interface bond{{ item }} description downlink-on-swp{{ item }}1"
+  ansible.builtin.shell: "nv set interface bond{{ item }} description downlink-on-swp{{ item }}"
   notify: config apply
   loop:
     - 1

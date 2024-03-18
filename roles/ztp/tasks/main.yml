@@ -1,0 +1,6 @@
+---
+- name: ztp
+  ansible.builtin.lineinfile:
+    path: /etc/dhcp/dhcpd.hosts
+    insertbefore: '^   option domain-name-servers 192.168.200.1;'
+    line: '# ztp'

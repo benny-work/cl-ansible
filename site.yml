@@ -1,4 +1,10 @@
 ---
+- name: apply configuration for ztp on oob mgmt
+  hosts: oob
+  roles:
+    - ztp
+  tags: [ oob, ztp ]
+
 - name: apply common configuration to all cumulus
   hosts: cumulus
   roles:

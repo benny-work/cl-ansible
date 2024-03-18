@@ -1,5 +1,10 @@
 all:
   children:
+    oob:
+      hosts:
+        oob-mgmt-server:
+          ansible_connection: local
+          ansible_user: ubuntu
     ubuntu:
       hosts:
         ubuntu-1[1:4]:

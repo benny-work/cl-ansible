@@ -1,5 +1,4 @@
 ---
-# dito /etc/dhcp/dhcpd.hosts
 #- name: ztp over dhcp
 #  ansible.builtin.lineinfile:
 #    path: /etc/dhcp/dhcpd.conf

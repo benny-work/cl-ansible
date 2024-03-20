@@ -26,7 +26,7 @@ ONIE:/ # ip link show eth0  # show mac (for dhcpd)
 ONIE:/ # onie-nos-install http://192.168.200.1/onie-installer
 ```
 
-### dhcp
+### dhcp, isc-dhcp-server at oob-mgmt-server
 
 Snippet from `/etc/dhcp/dhcpd.conf`
 
@@ -54,8 +54,13 @@ subnet 192.168.200.0 netmask 255.255.255.0 {
 ...
 ```
 
+Test the configuration file.
+```bash
+root@oob-mgmt-server:~# dhcpd -t -cf /etc/dhcp/dhcpd.conf
+```
+
 ### ztp script
 
 ```bash
-cumulus@onie:mgmt:~$ sudo ztp -v -r http://192.168.200.1/cumulus-ztp  # test ztp
+cumulus@onie:mgmt:~$ sudo ztp -v -r http://192.168.200.1/cumulus-ztp  # run ztp
 ```

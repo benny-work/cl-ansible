@@ -9,11 +9,13 @@
   hosts: cumulus
   roles:
     - cumulus
+  tags: [ cumulus, spine, leaf ]
 
 - name: apply common configuration to all ubuntu
   hosts: ubuntu
   roles:
     - ubuntu
+  tags: [ ubuntu ]
 
 - name: setup bond between hw spine switches and downlink to leaf
   hosts: hw-spine

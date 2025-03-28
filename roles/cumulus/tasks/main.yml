@@ -3,10 +3,10 @@
   ansible.builtin.shell: "nv set system hostname {{ inventory_hostname|lower }}"
   notify: config apply
 
-- name: Activate the interface for the Ubuntu server
-  ansible.builtin.shell: "nv set interface swp7-8 description ubuntu"
-  notify: config apply
+# - name: Activate the interface for the Ubuntu server
+#   ansible.builtin.shell: "nv set interface swp7-8 description ubuntu"
+#   notify: config apply
 
-- name: Bridge the interface for the Ubuntu server
-  ansible.builtin.shell: "nv set interface swp7-8 bridge domain br_default"
-  notify: config apply
+# - name: Bridge the interface for the Ubuntu server
+#   ansible.builtin.shell: "nv set interface swp7-8 bridge domain br_default"
+#   notify: config apply

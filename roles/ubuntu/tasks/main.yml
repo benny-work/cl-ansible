@@ -6,6 +6,7 @@
     mode: '0644'
   become: true
   notify: netplan apply
+  when: eth1 is undefined
 
 - name: Install traceroute
   ansible.builtin.apt:

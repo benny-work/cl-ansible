@@ -7,13 +7,14 @@ all:
           ansible_user: ubuntu
     ubuntu:
       hosts:
-        ubuntu-1[1:4]:
-        ubuntu-2[1:4]:
+        ubuntu-master-[1:2]:
+        ubuntu-hw-[1:2]:
+        ubuntu-os-[1:2]:
     cumulus:
       children:
-        hw-spine:
+        spine:
           hosts:
-            hw-core-sw[1:2]:
-        hw-leaf:
+            eth-spine-[1:2]:
+        leaf:
           hosts:
-            rack[1:2]-hwc-leaf:
+            eth-leaf-[1:2]:

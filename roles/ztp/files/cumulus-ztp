@@ -1,15 +1,133 @@
 #!/bin/bash
-passwd -x 99999 cumulus
-echo 'cumulus:nda4321' | chpasswd
-nv set system aaa user smc role nvue-admin
-nv set system aaa user smc full-name "Smart Management Center"
-nv config apply -y
-mkdir /home/smc/.ssh
-chown smc /home/smc/.ssh
-chgrp smc /home/smc/.ssh
-chmod 700 /home/smc/.ssh
-cat <<! > /home/smc/.ssh/authorized_keys
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDQLwbgseT9yOECopgAWZmodUBV7Egd4WDiUUBHvhTRhpMzKJhpA6fGT8pTkSkk9W0KLcFv/mQ3hF1cO4d4q1IYYnAoYJBnBIlw0G68feieLEBlvXIbsdRUWMFyQl8oT5oF4efEvkEB1Wp27o7TLQf9ViaQ2kv9bkpqvArvKlf3Xs368Y8OSx7rspDoTvCmwwTt+CTNVuLFytJL+XBIP0yUPRQ5VYZAIYWYmHTX6mPF2DKy+nA92+vQqcGpA2DxM0VKDp3gORqOvRKOHNVWqFfddbhMnJrK9iZYYB7jtS3iEZb7v8kNH+QIKgV2oHC19zX3FcQa0WmSecWHczXSf4/XoZDr7Ki3l0p8MEBj2qYEMZlbxGPBozn5XjwuTcZFNMnqDRnYBZxxafPkPhIONCiqqUrwkSFgty01PCHfRsgYgXsSdcDIJH4O7G7ow1Zg7wNJg9npuydPpjXg7jxL8DdUj1oFCIAsDVE8CH5w0s6Pid6JASp1CwLpt3dxv4rKpC8= ubuntu@oob-mgmt-server
-!
+
+set -u
+
+function firstboot(){
+  echo "date: $(date)" > /tmp/.firstboot
+  echo 'cumulus_role_version: 0.1' >> /tmp/.firstboot
+}
+
+function set_hostname(){
+  nv set system hostname "$1"
+  nv config apply -y
+}
+
+function license(){
+  echo -n '' >> /root/cumulus.lic
+  cl-license -i /root/cumulus.lic
+  systemctl restart switchd.service
+}
+
+function set_eth0_ip(){
+  nv unset interface eth0 ip address dhcp
+  nv set interface eth0 ip ipv6 enable off
+  nv set interface eth0 ip address "$1"
+  nv config apply -y
+}
+
+function modify_user_cumulus(){
+  passwd -x 99999 cumulus
+  echo '' | chpasswd
+}
+
+function create_user_smc(){
+  nv set system aaa user smc role nvue-admin
+  nv set system aaa user smc full-name "Smart Management Center"
+  nv config apply -y
+}
+
+function ssh_user_smc(){
+  [ -d /home/smc/.ssh ] || mkdir /home/smc/.ssh
+  chown smc /home/smc/.ssh
+  chgrp smc /home/smc/.ssh
+  chmod 700 /home/smc/.ssh
+cat << EOF > /home/smc/.ssh/authorized_keys
+EOF
+}
+
+function set_service_dns(){
+  nv set service dns mgmt server "$1"
+  nv config apply -y
+}
+
+function set_service_ntp(){
+  nv unset service ntp mgmt server
+  nv set service ntp mgmt server "$1"
+  nv config apply -y
+}
+
+function set_service_syslog(){
+  nv set service syslog mgmt server "$1"
+  nv config apply -y
+}
+
+function set_spine_peerlink(){
+  nv set bridge domain br_default stp priority 8192  # set spine as root bridge for stp
+  nv set interface "$1" description spine-isl  # inter-switch link
+  nv set interface peerlink bond member "$1"  # create peerlink
+  nv set mlag mac-address 44:38:39:FF:02:00  # mlag mac-address for the inter-chassis bond
+  nv set mlag backup "$2"
+  nv set mlag peer-ip linklocal
+  nv config apply -y
+}
+
+function set_spine_downlink(){
+  nv set interface "$1" description downlink-to-leaf  # description port
+  nv set interface "bond${2}" bond member "$1"  # create bond for downlink
+  nv set interface "bond${2}" description downlink-to-leaf  # description bond
+  nv set interface "bond${2}" bond mlag id "$2"  # mlag id
+  nv set interface "bond${2}" bridge domain br_default  # add downlink bond to bridge
+  nv config apply -y
+}
+
+function set_leaf_uplink(){
+  nv set interface "$1" description uplink-to-spine  # description port
+  nv set interface "bond${2}" bond member "$1"  # create bond for uplink
+  nv set interface "bond${2}" description uplink-to-spine  # description bond
+  nv set interface "bond${2}" bond mlag id "$2"  # mlag id
+  nv set interface "bond${2}" bridge domain br_default  # add uplink bond to bridge
+  nv config apply -y
+}
+
+function main(){
+   
+  firstboot
+  #license
+  #modify_user_cumulus
+  #create_user_smc
+  #ssh_user_smc
+  
+  my_hostname=$(hostname -s)
+  case ${my_hostname} in
+  
+    eth-spine-1 )
+      set_spine_peerlink 'swp49-50' '192.168.200.3'
+      set_spine_downlink 'swp3' '11'
+      ;;
+
+    eth-spine-2 )
+      set_spine_peerlink 'swp49-50' '192.168.200.2'
+      set_spine_downlink 'swp3' '11'
+      ;;
+
+    eth-leaf-1 )
+      set_leaf_uplink 'swp49-50' '11'
+      ;;
+    *)
+      echo 'Unknown switch' >&2
+      exit 1
+      ;; 
+  esac
+
+  #set_hostname "$my_hostname"
+  #set_eth0_ip "$my_cidr"
+  #set_service_dns "$my_dns_ip"
+  #set_service_ntp "$my_ntp_ip"
+  #set_service_syslog "$my_syslog_ip"
+
+}
+
+main "$@"
+
 exit
 #CUMULUS-AUTOPROVISIONING

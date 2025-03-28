@@ -16,16 +16,3 @@
   roles:
     - ubuntu
   tags: [ ubuntu ]
-
-- name: setup bond between hw spine switches and downlink to leaf
-  hosts: hw-spine
-  roles:
-    - hw_spine_bond
-    - hw_spine_downlink
-  tags: [ cumulus, spine ]
-
-- name: setup uplink to leaf
-  hosts: hw-leaf
-  roles:
-    - hw_leaf_uplink
-  tags: [ cumulus, leaf ]

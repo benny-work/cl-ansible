@@ -89,8 +89,24 @@ function set_leaf_uplink(){
   nv config apply -y
 }
 
+function access_ports(){
+  function set_interface(){
+    nv set interface "$1" description "$2"
+    nv set interface "$1" bridge domain br_default
+  }
+  case ${my_hostname} in
+    eth-spine-1 )
+      set_interface 'swp20' 'ubuntu-master-1'
+      set_interface 'swp7' 'ubuntu-os-1'
+      ;;
+  esac
+  nv config apply -y
+}
+
 function main(){
-   
+
+  declare -A access_ports_dict
+
   firstboot
   #license
   #modify_user_cumulus
@@ -103,6 +119,7 @@ function main(){
     eth-spine-1 )
       set_spine_peerlink 'swp49-50' '192.168.200.3'
       set_spine_downlink 'swp3' '11'
+      access_ports ${my_hostname}
       ;;
 
     eth-spine-2 )

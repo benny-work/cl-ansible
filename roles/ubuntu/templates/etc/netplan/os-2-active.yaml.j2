@@ -1,0 +1,20 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth1:
+      dhcp4: no
+      dhcp6: no
+    eth2:
+      dhcp4: no
+      dhcp6: no
+  bonds:
+    bond0:
+      interfaces:
+        - eth1
+        - eth2
+      addresses: [10.0.1.32/24]
+      parameters:
+        mode: active-backup
+        primary: eth1
+        mii-monitor-interval: 100

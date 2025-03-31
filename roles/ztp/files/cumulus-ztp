@@ -1,6 +1,9 @@
 #!/bin/bash
-
 set -u
+
+VLAN_OS=1
+VLAN_HW=101
+
 function set_bridge(){
   nv set bridge domain br_default vlan 101,102
   nv set bridge domain br_default untagged 1
@@ -94,6 +97,19 @@ function set_leaf_uplink(){
   nv config apply -y
 }
 
+function set_leaf_downlink(){
+  nv set interface "$1" description downlink-from-leaf  # description port
+  nv set interface "bond${2}" bond member "$1"  # create bond for downlink
+  nv set interface "bond${2}" description downlink-from-leaf  # description bond
+  nv set interface "bond${2}" bond mlag id "$2"  # mlag id
+  if [[ ${3+x} ]]; then
+    nv set interface "bond$2" bridge domain br_default access "$3"
+  else
+    nv set interface "bond$2" bridge domain br_default
+  fi
+  nv config apply -y
+}
+
 function access_ports(){
   function set_interface(){
     nv set interface "$1" description "$2"
@@ -106,20 +122,15 @@ function access_ports(){
   case ${my_hostname} in
     eth-spine-1 )
       set_interface 'swp20' 'ubuntu-master-1'
-      set_interface 'swp7' 'ubuntu-os-1' '101'
-      ;;
-    eth-spine-2 )
-      continue
+      set_interface 'swp7' 'ubuntu-os-1' "${VLAN_OS}"
+      nv config apply -y
       ;;
     eth-leaf-1 )
-      set_interface 'swp7' 'ubuntu-hw-1' '1'
-      ;;
-    eth-leaf-2 )
-      set_interface 'swp7' 'ubuntu-os-2' '1'
-      set_interface 'swp8' 'ubuntu-os-2' '1'
+      set_interface 'swp7' 'ubuntu-hw-1' "${VLAN_HW}"
+      nv config apply -y
       ;;
   esac
-  nv config apply -y
+
 }
 
 function main(){
@@ -150,6 +161,7 @@ function main(){
       ;;
     eth-leaf-2 )
       set_leaf_uplink 'swp49-50' '12'
+      set_leaf_downlink 'swp7-8' '21' "${VLAN_OS}"
       ;;
     *)
       echo 'Unknown switch' >&2

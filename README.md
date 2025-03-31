@@ -59,8 +59,25 @@ Test the configuration file.
 root@oob-mgmt-server:~# dhcpd -t -cf /etc/dhcp/dhcpd.conf
 ```
 
-### ztp script
+## deploy
+
+oob-mgmt-server, install "cumulus-ztp" in webroot and set hostname on every switch
+
+```bash
+ubuntu@oob-mgmt-server:~$ ./clone.sh
+cd ~/cl-ansible && ansible-playbook site.yml --tags ztp,cumulus
+```
+
+Every cumulus
 
 ```bash
 cumulus@onie:mgmt:~$ sudo ztp -v -r http://192.168.200.1/cumulus-ztp  # run ztp
+# or 
+cumulus@eth-spine-1:mgmt:~$ curl http://192.168.200.1/cumulus-ztp | bash -x
+```
+
+set IP on Ubuntu
+
+```bash
+cd ~/cl-ansible && ansible-playbook site.yml --tags ubuntu
 ```

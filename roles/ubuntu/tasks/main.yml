@@ -2,11 +2,20 @@
 - name: Configuring Netplan
   ansible.builtin.template:
     src: etc/netplan/eth1.yaml.j2
-    dest: /etc/netplan/50-eth1.yaml
+    dest: /etc/netplan/60-custom.yaml
     mode: '0600'
   become: true
   notify: netplan apply
-  when: eth1 is undefined
+  when: eth1 is defined and netplan is undefined
+
+- name: Configuring Netplan
+  ansible.builtin.template:
+    src: "etc/netplan/{{ netplan }}"
+    dest: /etc/netplan/60-custom.yaml
+    mode: '0600'
+  become: true
+  notify: netplan apply
+  when: netplan is defined
 
 - name: Install traceroute
   ansible.builtin.apt:

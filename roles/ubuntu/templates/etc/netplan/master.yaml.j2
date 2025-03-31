@@ -1,0 +1,14 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth1:
+      addresses:
+        - 10.0.1.21/24
+
+  vlans:
+    vlan.101:
+      id: 101
+      link: eth1
+      addresses:
+        - 10.0.101.21/24

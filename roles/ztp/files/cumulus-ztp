@@ -158,10 +158,11 @@ function main(){
       ;;
     eth-leaf-1 )
       set_leaf_uplink 'swp49-50' '11'
+      set_leaf_downlink 'swp8' '21' "${VLAN_OS}" # ubuntu-os-2
       ;;
     eth-leaf-2 )
       set_leaf_uplink 'swp49-50' '12'
-      set_leaf_downlink 'swp7-8' '21' "${VLAN_OS}"
+      set_leaf_downlink 'swp8' '21' "${VLAN_OS}" # ubuntu-os-2
       ;;
     *)
       echo 'Unknown switch' >&2

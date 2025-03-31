@@ -1,6 +1,11 @@
 #!/bin/bash
 
 set -u
+function set_bridge(){
+  nv set bridge domain br_default vlan 101,102
+  nv set bridge domain br_default untagged 1
+  nv config apply
+}
 
 function firstboot(){
   echo "date: $(date)" > /tmp/.firstboot
@@ -92,12 +97,26 @@ function set_leaf_uplink(){
 function access_ports(){
   function set_interface(){
     nv set interface "$1" description "$2"
-    nv set interface "$1" bridge domain br_default
+    if [[ ${3+x} ]]; then
+      nv set interface "$1" bridge domain br_default access "$3"
+    else
+      nv set interface "$1" bridge domain br_default
+    fi
   }
   case ${my_hostname} in
     eth-spine-1 )
       set_interface 'swp20' 'ubuntu-master-1'
-      set_interface 'swp7' 'ubuntu-os-1'
+      set_interface 'swp7' 'ubuntu-os-1' '101'
+      ;;
+    eth-spine-2 )
+      continue
+      ;;
+    eth-leaf-1 )
+      set_interface 'swp7' 'ubuntu-hw-1' '1'
+      ;;
+    eth-leaf-2 )
+      set_interface 'swp7' 'ubuntu-os-2' '1'
+      set_interface 'swp8' 'ubuntu-os-2' '1'
       ;;
   esac
   nv config apply -y
@@ -105,13 +124,12 @@ function access_ports(){
 
 function main(){
 
-  declare -A access_ports_dict
-
   firstboot
   #license
   #modify_user_cumulus
   #create_user_smc
   #ssh_user_smc
+  set_bridge
   
   my_hostname=$(hostname -s)
   case ${my_hostname} in
@@ -119,22 +137,27 @@ function main(){
     eth-spine-1 )
       set_spine_peerlink 'swp49-50' '192.168.200.3'
       set_spine_downlink 'swp3' '11'
-      access_ports ${my_hostname}
+      set_spine_downlink 'swp4' '12'
       ;;
 
     eth-spine-2 )
       set_spine_peerlink 'swp49-50' '192.168.200.2'
       set_spine_downlink 'swp3' '11'
+      set_spine_downlink 'swp4' '12'
       ;;
-
     eth-leaf-1 )
       set_leaf_uplink 'swp49-50' '11'
+      ;;
+    eth-leaf-2 )
+      set_leaf_uplink 'swp49-50' '12'
       ;;
     *)
       echo 'Unknown switch' >&2
       exit 1
       ;; 
   esac
+
+  access_ports ${my_hostname}
 
   #set_hostname "$my_hostname"
   #set_eth0_ip "$my_cidr"
